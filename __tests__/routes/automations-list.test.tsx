@@ -284,9 +284,6 @@ describe("AutomationsList — draft sections", () => {
       within(draftCard).getByTestId("automation-setup-draft-open-draft-1"),
     ).toBeInTheDocument();
     expect(
-      within(draftCard).getByTestId("automation-setup-draft-open-draft-1"),
-    ).toBeInTheDocument();
-    expect(
       within(draftCard).getByTestId("automation-setup-draft-resume-draft-1"),
     ).toBeInTheDocument();
     const activePlay = within(draftCard).getByTestId(
