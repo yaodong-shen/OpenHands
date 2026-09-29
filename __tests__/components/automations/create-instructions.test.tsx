@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -8,8 +8,42 @@ import {
 } from "#/context/navigation-context";
 import { CreateInstructions } from "#/components/features/automations/create-instructions";
 import { I18nKey } from "#/i18n/declaration";
+<<<<<<< HEAD
 import { useConversationStore } from "#/stores/conversation-store";
 import * as telemetry from "#/services/telemetry";
+=======
+
+const mocks = vi.hoisted(() => ({
+  createConversationMutate: vi.fn(),
+  setAutomationSetupDraft: vi.fn(),
+  trackAutomationCreatedButton: vi.fn(),
+}));
+
+vi.mock("#/hooks/mutation/use-create-conversation", () => ({
+  useCreateConversation: () => ({
+    mutate: mocks.createConversationMutate,
+    isPending: false,
+  }),
+}));
+
+vi.mock("#/api/automation-setup-draft-store", () => ({
+  PENDING_AUTOMATION_SETUP_ID: "pending-new-automation",
+  setAutomationSetupDraft: (...args: unknown[]) =>
+    mocks.setAutomationSetupDraft(...args),
+  getAutomationSetupDraft: () => null,
+  clearAutomationSetupDraft: () => undefined,
+}));
+
+vi.mock("#/contexts/active-backend-context", () => ({
+  useActiveBackend: () => ({ backend: { kind: "local" } }),
+}));
+
+vi.mock("#/hooks/use-tracking", () => ({
+  useTracking: () => ({
+    trackAutomationCreatedButton: mocks.trackAutomationCreatedButton,
+  }),
+}));
+>>>>>>> b1708a050 (feat: design the automation setup flow for drafts and testing (#17775))
 
 vi.mock("#/hooks/query/use-settings", () => ({
   useSettings: () => ({ data: { user_consents_to_analytics: true } }),
@@ -107,7 +141,11 @@ describe("CreateInstructions", () => {
     );
   });
 
+<<<<<<< HEAD
   it("navigates to conversations with a prefilled prompt when Create Automation is clicked", async () => {
+=======
+  it("opens the setup form without creating a conversation", async () => {
+>>>>>>> b1708a050 (feat: design the automation setup flow for drafts and testing (#17775))
     const user = userEvent.setup();
     const setMessageToSend = vi.fn();
     useConversationStore.setState({ setMessageToSend });
@@ -115,9 +153,21 @@ describe("CreateInstructions", () => {
 
     await user.click(screen.getByTestId("automations-create-automation"));
 
+<<<<<<< HEAD
     expect(navigate).toHaveBeenCalledWith("/conversations");
     await waitFor(() => {
       expect(setMessageToSend).toHaveBeenCalledWith("Create an automation");
     });
+=======
+    expect(mocks.createConversationMutate).not.toHaveBeenCalled();
+    expect(mocks.setAutomationSetupDraft).toHaveBeenCalledWith(
+      "pending-new-automation",
+      {
+        prompt: "",
+        kind: "prompt",
+      },
+    );
+    expect(navigate).toHaveBeenCalledWith("/automations/setup");
+>>>>>>> b1708a050 (feat: design the automation setup flow for drafts and testing (#17775))
   });
 });

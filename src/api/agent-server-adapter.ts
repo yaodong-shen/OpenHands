@@ -33,6 +33,11 @@ import {
 import { combineUsageMetrics } from "#/utils/conversation-metrics";
 import {
   AUTOMATION_DRAFT_ID_TAG_KEY,
+<<<<<<< HEAD
+=======
+  AUTOMATION_EDIT_ID_TAG_KEY,
+  AUTOMATION_MATERIALIZED_DRAFT_ID_TAG_KEY,
+>>>>>>> b1708a050 (feat: design the automation setup flow for drafts and testing (#17775))
   AUTOMATION_SETUP_TAG_KEY,
 } from "#/utils/automation-draft-tags";
 import {
@@ -548,8 +553,16 @@ export const AUTOMATION_TAG_KEYS: readonly string[] = [
  *   stay out of it — and users can't edit or spoof automation classification.
  * - ``localplannerparent`` → internal routing for the local planner; already
  *   surfaced by the hidden-from-list planner filter
+<<<<<<< HEAD
  * - ``automationsetup`` / ``automationdraftid`` → internal routing for
  *   resuming server-backed automation setup drafts
+=======
+ * - ``automationsetup`` / ``automationdraftid`` →
+ *   ``automationmaterializeddraftid`` → internal routing for resuming
+ *   server-backed automation setup drafts (the last one links a resumed
+ *   conversation to the automation materialized from its draft)
+ * - ``automationeditid`` → the saved automation this setup page is editing
+>>>>>>> b1708a050 (feat: design the automation setup flow for drafts and testing (#17775))
  */
 export const RESERVED_CONVERSATION_TAG_KEYS: ReadonlySet<string> = new Set([
   ACP_SERVER_TAG_KEY,
@@ -560,6 +573,11 @@ export const RESERVED_CONVERSATION_TAG_KEYS: ReadonlySet<string> = new Set([
   AUTOMATION_RUN_ID_TAG_KEY,
   AUTOMATION_SETUP_TAG_KEY,
   AUTOMATION_DRAFT_ID_TAG_KEY,
+<<<<<<< HEAD
+=======
+  AUTOMATION_MATERIALIZED_DRAFT_ID_TAG_KEY,
+  AUTOMATION_EDIT_ID_TAG_KEY,
+>>>>>>> b1708a050 (feat: design the automation setup flow for drafts and testing (#17775))
   "title",
   "git_provider",
   "repo_name",
