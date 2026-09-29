@@ -1,12 +1,9 @@
 export const AUTOMATION_SETUP_TAG_KEY = "automationsetup";
 export const AUTOMATION_DRAFT_ID_TAG_KEY = "automationdraftid";
-<<<<<<< HEAD
-=======
 export const AUTOMATION_MATERIALIZED_DRAFT_ID_TAG_KEY =
   "automationmaterializeddraftid";
 /** Existing automation opened in the setup page, rather than a new draft. */
 export const AUTOMATION_EDIT_ID_TAG_KEY = "automationeditid";
->>>>>>> b1708a050 (feat: design the automation setup flow for drafts and testing (#17775))
 export const AUTOMATION_SETUP_TAG_VALUE = "draft";
 
 export function getAutomationDraftIdFromTags(
@@ -16,8 +13,6 @@ export function getAutomationDraftIdFromTags(
   return draftId || null;
 }
 
-<<<<<<< HEAD
-=======
 export function getAutomationMaterializedDraftIdFromTags(
   tags: Record<string, string> | null | undefined,
 ): string | null {
@@ -32,7 +27,6 @@ export function getAutomationEditIdFromTags(
   return automationId || null;
 }
 
->>>>>>> b1708a050 (feat: design the automation setup flow for drafts and testing (#17775))
 export function hasAutomationSetupModeTag(
   tags: Record<string, string> | null | undefined,
 ): boolean {
@@ -68,11 +62,16 @@ export function buildAutomationEditTags(
 export function buildAutomationDraftTags(
   tags: Record<string, string> | null | undefined,
   draftId: string,
+  materializedDraftId?: string | null,
 ): Record<string, string> {
-  return {
+  const next: Record<string, string> = {
     ...buildAutomationSetupModeTags(tags),
     [AUTOMATION_DRAFT_ID_TAG_KEY]: draftId,
   };
+  if (materializedDraftId) {
+    next[AUTOMATION_MATERIALIZED_DRAFT_ID_TAG_KEY] = materializedDraftId;
+  }
+  return next;
 }
 
 export function removeAutomationDraftTags(
@@ -81,10 +80,7 @@ export function removeAutomationDraftTags(
   const next = { ...(tags ?? {}) };
   delete next[AUTOMATION_SETUP_TAG_KEY];
   delete next[AUTOMATION_DRAFT_ID_TAG_KEY];
-<<<<<<< HEAD
-=======
   delete next[AUTOMATION_MATERIALIZED_DRAFT_ID_TAG_KEY];
   delete next[AUTOMATION_EDIT_ID_TAG_KEY];
->>>>>>> b1708a050 (feat: design the automation setup flow for drafts and testing (#17775))
   return next;
 }
